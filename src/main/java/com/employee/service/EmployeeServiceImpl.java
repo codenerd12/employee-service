@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.employee.cache.CacheService;
 import com.employee.dao.EmployeeDao;
 import com.employee.model.Employee;
+import com.employee.model.EmployeeRequest;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,17 @@ public class EmployeeServiceImpl {
 							}
 						}))
 						);
+	}
+	
+	public Mono<Employee> create(EmployeeRequest employeeRequest) {
+		return Mono.just(employeeRequest)
+				.map(emp -> modelMapper.map(emp, com.employee.dao.model.Employee.class))
+				.doOnNext(employeeDTO -> log.info("Employee DETAIL: {} {} {}", employeeDTO.getId(), 
+						employeeDTO.getName(), employeeDTO.getDepartment()))
+				.flatMap(employeeDTO -> employeeDao.create(employeeDTO)
+						.switchIfEmpty(Mono.defer(() -> Mono.empty()))
+				)
+				.map(employeeDTO -> modelMapper.map(employeeDTO, Employee.class));
 	}
 
 

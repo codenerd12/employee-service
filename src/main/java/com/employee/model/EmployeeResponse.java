@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 public class EmployeeResponse {
 	
-	private List<Employee> students;
+	private List<Employee> employees;
 	
 
 }
