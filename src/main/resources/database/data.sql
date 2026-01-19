@@ -1,6 +1,6 @@
-drop table IF EXISTS employee;
+--drop table IF EXISTS employee;
 
-CREATE TABLE employee(
+CREATE TABLE IF NOT EXISTS employee(
 id int NOT NULL AUTO_INCREMENT, 
 name varchar(50), 
 department varchar(50), 
