@@ -18,6 +18,10 @@ import com.employee.model.EmployeeRequest;
 import com.employee.model.EmployeeResponse;
 import com.employee.service.EmployeeServiceImpl;
 
+import io.swagger.v3.oas.annotations.Operation;
+
+import org.springframework.boot.autoconfigure.web.*;
+//import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -29,7 +33,7 @@ public class EmployeeController {
 	
 	private final EmployeeServiceImpl employeeService;
 	
-	@GetMapping("/test")
+	/*@GetMapping("/test")
 	public Mono<ResponseEntity<Employee>> getEmployee() {
 		System.out.println("----->Hello");
 		Employee employee = Employee.builder()
@@ -38,18 +42,21 @@ public class EmployeeController {
 				.department("IT")
 				.build();
 		return Mono.just(new ResponseEntity<>(employee, HttpStatus.OK));
-	}
+	}*/	
 	
+	@Operation(summary = "Get all employee", description = "Returns a list of employee")
 	@GetMapping("/employee")
 	public Mono<ResponseEntity<Mono<List<Employee>>>> getAllEmployee() {
 		return Mono.just(new ResponseEntity<>(employeeService.getAllEmployee(), HttpStatus.OK));
 	}
 	
+	@Operation(summary = "Get employee details", description = "Returns the employee details")
 	@GetMapping("/employee/{id}")
 	public Mono<ResponseEntity<Mono<Employee>>> getEmployee(@PathVariable("id") Long id) {
 		return Mono.just(new ResponseEntity<>(employeeService.getEmployee(id), HttpStatus.OK));
 	}
 	
+	@Operation(summary = "create the employee", description = "Create employee with info")
 	@PostMapping("/employee")
 	public Mono<ResponseEntity<EmployeeResponse>> create(@RequestBody Mono<EmployeeRequest> employeeRequest) {
 		EmployeeResponse employeeResponse = EmployeeResponse.builder()

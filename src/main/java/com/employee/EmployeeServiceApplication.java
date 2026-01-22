@@ -3,7 +3,7 @@ package com.employee;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FullyQualifiedAnnotationBeanNameGenerator;
@@ -13,16 +13,23 @@ import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
 import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
 
 import io.r2dbc.spi.ConnectionFactory;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import reactor.core.publisher.Hooks;
 
 @SpringBootApplication(
 		nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class,
-		exclude = {DataRedisAutoConfiguration.class}
+		exclude = {RedisAutoConfiguration.class}
 )
 @ComponentScan(
 		basePackages = {"com.employee", "com.employee.config"},
 		nameGenerator = FullyQualifiedAnnotationBeanNameGenerator.class
 )
+@OpenAPIDefinition(info = @Info(
+	    title = "My Reactive API",
+	    version = "1.0",
+	    description = "Documentation for My Reactive API v1.0"
+	))
 public class EmployeeServiceApplication {
 
 	public static void main(String[] args) {

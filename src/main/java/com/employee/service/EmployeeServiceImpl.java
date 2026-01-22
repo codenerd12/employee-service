@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.batch.infrastructure.item.validator.ValidationException;
 import org.springframework.stereotype.Service;
 
 import com.employee.cache.CacheService;
@@ -54,7 +53,7 @@ public class EmployeeServiceImpl {
 										.thenReturn(employee);
 							} else {
 								log.error("Could not load employee data from database or api for employee: {}", id);
-								return Mono.error(new ValidationException("Either employee details not found"));
+								return Mono.error(new jakarta.validation.ValidationException("Either employee details not found"));
 							}
 						}))
 						);
